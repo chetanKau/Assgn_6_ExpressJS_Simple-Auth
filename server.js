@@ -1,22 +1,34 @@
 const express = require('express')
 const morgan = require('morgan')
+const fs = require('fs')
 
 const PORT = 5000;
 const server = express();
 
+
+const loginInfo = (req, res, next) => {
+    const mthd = req.method
+    const urlll = req.url
+    const date = new Date()
+    const logData = `METHOD: ${mthd} URL : ${urlll}  at Time :- ${date}\n`
+    fs.appendFileSync("url_Logs.txt", logData)
+    next()
+
+}
+
 server.use(morgan('dev'))
+server.use(loginInfo)
 
 server.get("/user/loggedIn", (req, res) => {
-
-    const userInfo = {
-        name: "chetan",
-        country: "India"
-    }
+    const userInfo = 
+        "hello"
+    
     res.json({
         status: "success",
-        data:[userInfo]
+        data: [userInfo]
     })
 })
+
 
 
 server.listen(PORT, () => {
